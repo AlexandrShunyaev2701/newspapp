@@ -1,0 +1,31 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+{%load custom_filters%}
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+
+<h1>Новости</h1>
+<table>
+    <tr>
+        <td>Заголовок</td>
+        <td>Дата публикации</td>
+        <td>Описание</td>
+    </tr>
+
+    {% for cat in category_news_list %}
+    <tr>
+        <td>{{ cat.headline|censor }}</td>
+        <td>{{ cat.data_time_create|date:'d.m.y' }}</td>
+        <td>{{ cat.text|censor|truncatewords:20 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% if is_not_subscribers %}
+    <p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm">Подписаться</a> </p>
+{% endif %}
+{% endblock content %}
