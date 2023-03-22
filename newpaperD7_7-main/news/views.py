@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
+from .tasks import notify_about_new_post
     
 
 class PostList(ListView):
@@ -64,6 +65,7 @@ class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         posts = form.save(commit=False)
         posts.position = 'P'
         posts.save()
+        notify_about_new_post.apply_async([posts.pk])
         return super().form_valid(form)
 
 
@@ -84,6 +86,7 @@ class NewsCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         news = form.save(commit=False)
         news.position = 'N'
         news.save()
+        notify_about_new_post.apply_async([news.pk])
         return super().form_valid(form)
 
 

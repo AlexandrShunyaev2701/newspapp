@@ -177,6 +177,13 @@ APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 
 
+CELERY_BROKER_URL = 'redis://:PYUzLAMbeSjk4z86bXSglZQtgBdFLszP@redis-10287.c90.us-east-1-3.ec2.cloud.redislabs.com:10287'
+CELERY_RESULT_BACKEND = 'redis://:PYUzLAMbeSjk4z86bXSglZQtgBdFLszP@redis-10287.c90.us-east-1-3.ec2.cloud.redislabs.com:10287'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
