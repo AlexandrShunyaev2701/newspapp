@@ -2,9 +2,11 @@ from django.urls import path
 # Импортируем созданные нами представления
 from .views import *
 from django.contrib.auth.views import LoginView, LogoutView
+from django.views.decorators.cache import cache_page
+
 
 urlpatterns = [
-   path('', PostList.as_view()),
+   path('', cache_page(60)(PostList.as_view())),
    path('<int:id>', OnePost.as_view()),
    path('search/', PostSearch.as_view()),
    path('news/create/', PostCreate.as_view()),

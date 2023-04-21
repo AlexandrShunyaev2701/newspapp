@@ -12,6 +12,8 @@
 
     </head>
     <body>
+    {% load cache %}
+    {% cache 60 navbar %}
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
             <div class="container">
@@ -39,6 +41,7 @@
                 </div>
             </div>
         </nav>
+    {% endcache %}
         <!-- Page content-->
         <div class="container">
             <div class="row">

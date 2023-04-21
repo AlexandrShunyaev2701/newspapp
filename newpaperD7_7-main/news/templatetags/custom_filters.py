@@ -14,5 +14,5 @@ def currency(value):
         if i in cenc_words:
             cenc_str = cenc_str + ' ' + i.replace(i, '****')
         else:
-            cenc_str = cenc_str + ' ' +  i
+            cenc_str = cenc_str + ' ' + i
     return cenc_str

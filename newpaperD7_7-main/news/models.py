@@ -1,10 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
 from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group, User
+from django.core.cache import cache
 
 
-    
 class Post(models.Model):
     post = 'P'
     news = 'N'
@@ -30,13 +29,18 @@ class Post(models.Model):
         self.save()
         
     def preview(self):
-        return self.text[:124]
+        preview = self.text[:124]
+        return preview
     
     def __str__(self):
         return f'{self.headline}'
 
     def get_absolute_url(self):
         return f'/news/{self.pk}'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        cache.delete(f'post-{self.pk}')
         
     
 class PostCategory(models.Model):
@@ -67,9 +71,12 @@ class Author(models.Model):
         self.user_rating = self.Post.rating * 3 + self.Comment.comments_rating
         self.save()
 
+    def __str__(self):
+        return f'{self.author}'
+
 class Category(models.Model):
-    name_category = models.CharField(max_length=255, unique = True)
-    subscribers = models.ManyToManyField(User, blank=True, null=True, related_name='categories')
+    name_category = models.CharField(max_length=255, unique=True)
+    subscribers = models.ManyToManyField(User, related_name='categories')
 
     def __str__(self):
         return self.name_category
